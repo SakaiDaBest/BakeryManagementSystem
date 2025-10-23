@@ -23,11 +23,11 @@ public class BMS_FinalTech {
             System.out.print("Choose an option (1-3): ");
 
             String choice = scanner.nextLine().trim();
-
+            char state = 0;
             switch (choice) {
                 case "1":
                     boolean loggedIn = false;
-
+                    boolean exit = false;
                     while(loggedIn == false){
                         System.out.print("\nEnter your User ID (or X to quit): ");
                         String userId = scanner.nextLine().trim();
@@ -38,9 +38,15 @@ public class BMS_FinalTech {
                             System.out.println("⚠️  User ID cannot be empty.");
                         } else {
                             if (userId.charAt(0) == 'M') {
+                                state = 'M';
                                 userINFO = authentication(FILE_MANAGER, userId);
+
                             }else if(userId.charAt(0)=='C'){
+                                state = 'C';
                                 userINFO = authentication(FILE_CUSTOMER, userId);
+                            }else if(userId.charAt(0)=='X'){
+                                exit = true;
+                                break;
                             }else{
                                 break;
                             }
@@ -48,6 +54,15 @@ public class BMS_FinalTech {
                                 loggedIn = true;
                             }
                         }
+                    }
+                    if(exit){
+                        break;
+                    }
+
+                    if(state=='M'){
+
+                    }else{
+
                     }
 
                     break;
@@ -74,16 +89,7 @@ public class BMS_FinalTech {
         }
 
         scanner.close();
-//        Customer c1 = new Customer("Alice", "23/09/2006", "+60123456789");
-//        c1.save();
-//
-//        Manager m1 = new Manager("Josh", "12/02/1980", "+60199887766");
-//        m1.save();
-//
-//        System.out.println();
-//        Customer.readCustomers();
-//        System.out.println();
-//        Manager.readManagers();
+
     }
 
     protected static String[] authentication(String fileName, String userId){
