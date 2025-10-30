@@ -68,14 +68,16 @@ public class BMS_FinalTech {
                     break;
 
                 case "2":
-                    System.out.print("\nEnter a new Customer ID to create: ");
-                    String newUserId = scanner.nextLine().trim();
-                    if (newUserId.isEmpty()) {
-                        System.out.println("⚠️  Customer ID cannot be empty.");
-                    } else {
-                        System.out.println("🎉 Customer '" + newUserId + "' created successfully!");
-                    }
-                    break;
+                    System.out.print("\nEnter your Name: ");
+                    String name = scanner.next();
+                    System.out.print("\nEnter your Date of Birth(DD/MM/YYYY): ");
+                    String date = scanner.next();
+                    System.out.print("\nEnter your Phone Number: ");
+                    String phoneNumber = scanner.next();
+                    Customer customer = new Customer(name, date, phoneNumber);
+                    customer.save();
+                    //auto login
+
 
                 case "3":
                     System.out.println("\n👋 Exiting Bakery Management System...");

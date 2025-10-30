@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.Buffer;
 import java.util.*;
 
 public class Person {
@@ -19,10 +20,10 @@ public class Person {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                lastId = line.split(",")[0]; // first column = ID
+                lastId = line.split(",")[0];
             }
         } catch (FileNotFoundException e) {
-            // file might not exist yet, start fresh
+
             System.out.println("No existing file found for " + prefix + ". Starting at " + prefix + "001");
         } catch (IOException e) {
             e.printStackTrace();
