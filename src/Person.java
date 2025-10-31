@@ -8,6 +8,8 @@ public class Person {
     protected String id;
     protected String phoneNumber;
 
+    Scanner scanner = new Scanner(System.in);
+
     public Person(String name, String dateOfBirth, String phoneNumber) {
         this.dateOfBirth = dateOfBirth;
         this.name = name;
@@ -58,7 +60,33 @@ public class Person {
             System.out.println("No records found in " + fileName);
         }
     }
+
+    public void showUI(char type){
+        if(type=='C'){
+            System.out.println("=====================================");
+            System.out.println("     🍞      Customer Menu");
+            System.out.println("=====================================");
+            System.out.println("1. Make Order");
+            System.out.println("2. View Order Status");
+            System.out.println("3. View Order History");
+            System.out.println("4. Log Out");
+
+        }else if(type == 'M'){
+            System.out.println("=====================================");
+            System.out.println("     🍞       Manager Menu");
+            System.out.println("=====================================");
+
+
+        }
+    }
 }
+
+
+
+//====================================================================================================
+
+
+
 
 class Customer extends Person {
     private static final String FILE = "src/customers.csv";
@@ -77,6 +105,13 @@ class Customer extends Person {
         readFile(FILE);
     }
 }
+
+
+
+//==============================================================================================================
+
+
+
 
 class Manager extends Person {
     private static final String FILE = "src/managers.csv";
