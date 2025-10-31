@@ -6,11 +6,11 @@ import java.util.*;
 public class BMS_FinalTech {
     static final String FILE_CUSTOMER = System.getProperty("user.dir") + "/BakeryManagementSystem/src/customers.csv";;
     static final String FILE_MANAGER = System.getProperty("user.dir") + "/BakeryManagementSystem/src/managers.csv";;
-
+    static final String MASTER_PASSWORD = "12345";
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
-
+        boolean loggedIn = false;
         System.out.println("=====================================");
         System.out.println("     🍞 Bakery Management System");
         System.out.println("=====================================");
@@ -18,15 +18,16 @@ public class BMS_FinalTech {
         while (running) {
             System.out.println("\nMain Menu:");
             System.out.println("1. Login");
-            System.out.println("2. Create User");
-            System.out.println("3. Exit");
-            System.out.print("Choose an option (1-3): ");
+            System.out.println("2. Create Customer");
+            System.out.println("3. Create Manager");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option (1-4): ");
 
             String choice = scanner.nextLine().trim();
             char state = 0;
             switch (choice) {
                 case "1":
-                    boolean loggedIn = false;
+
                     boolean exit = false;
                     while(loggedIn == false){
                         System.out.print("\nEnter your User ID (or X to quit): ");
@@ -69,23 +70,35 @@ public class BMS_FinalTech {
 
                 case "2":
                     System.out.print("\nEnter your Name: ");
-                    String name = scanner.next();
+                    String cname = scanner.next();
                     System.out.print("\nEnter your Date of Birth(DD/MM/YYYY): ");
-                    String date = scanner.next();
+                    String cdate = scanner.next();
                     System.out.print("\nEnter your Phone Number: ");
-                    String phoneNumber = scanner.next();
-                    Customer customer = new Customer(name, date, phoneNumber);
+                    String cphoneNumber = scanner.next();
+                    Customer customer = new Customer(cname, cdate, cphoneNumber);
                     customer.save();
                     //auto login
 
-
                 case "3":
+                    System.out.print("\nEnter your Name: ");
+                    String mname = scanner.next();
+                    System.out.print("\nEnter your Date of Birth(DD/MM/YYYY): ");
+                    String mdate = scanner.next();
+                    System.out.print("\nEnter your Phone Number: ");
+                    String mphoneNumber = scanner.next();
+                    Manager manager = new Manager(mname, mdate, mphoneNumber);
+                    manager.save();
+                    //auto login
+
+
+
+                case "4":
                     System.out.println("\n👋 Exiting Bakery Management System...");
                     running = false;
                     break;
 
                 default:
-                    System.out.println("❌ Invalid choice. Please enter 1, 2, or 3.");
+                    System.out.println("❌ Invalid choice. Please enter 1, 2, 3 or 4.");
                     break;
             }
         }
