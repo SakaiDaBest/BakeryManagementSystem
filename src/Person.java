@@ -8,7 +8,7 @@ public class Person {
     protected String id;
     protected String phoneNumber;
 
-    Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
 
     public Person(String name, String dateOfBirth, String phoneNumber) {
         this.dateOfBirth = dateOfBirth;
@@ -61,25 +61,104 @@ public class Person {
         }
     }
 
-    public void showUI(char type){
-        if(type=='C'){
-            System.out.println("=====================================");
-            System.out.println("     🍞      Customer Menu");
-            System.out.println("=====================================");
-            System.out.println("1. Make Order");
-            System.out.println("2. View Order Status");
-            System.out.println("3. View Order History");
-            System.out.println("4. Log Out");
+    protected static void showUI(char type, String[] user){
 
-        }else if(type == 'M'){
-            System.out.println("=====================================");
-            System.out.println("     🍞       Manager Menu");
-            System.out.println("=====================================");
+        boolean exit = false;
+        String choice = "";
+        while (!exit) {
+            if (type == 'C') {
+                System.out.println("=====================================");
+                System.out.println("     🍞      Customer Menu");
+                System.out.println("=====================================");
+                System.out.println("1. Make Order");
+                System.out.println("2. View Order Status");
+                System.out.println("3. View Order History");
+                System.out.println("4. Update Information");
+                System.out.println("5. Log Out");
 
+                choice = scanner.next();
+
+                switch (choice) {
+                    case "1":
+
+                        break;
+                    case "2":
+
+                        break;
+                    case "3":
+
+                        break;
+                    case "4":
+
+                        break;
+                    case "5":
+                        exit = true;
+                        System.out.println("Logging out...");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                        break;
+                }
+
+            } else if (type == 'M') {
+                System.out.println("=====================================");
+                System.out.println("     🍞       Manager Menu");
+                System.out.println("=====================================");
+                System.out.println("1. Show Orders");
+                System.out.println("2. Cancel Orders");
+                System.out.println("3. View Customer List");
+                System.out.println("4. View Manager List");
+                System.out.println("5. View Sales Report");
+                System.out.println("6. Update Product Stock");
+                System.out.println("7. Add Product");
+                System.out.println("8. Remove Product");
+                System.out.println("9. Update Information");
+                System.out.println("10. Log Out");
+
+                choice = scanner.next();
+
+                switch (choice) {
+                    case "1":
+
+                        break;
+                    case "2":
+
+                        break;
+                    case "3":
+
+                        break;
+                    case "4":
+
+                        break;
+                    case "5":
+                        //ks
+                        break;
+                    case "6":
+                        //jh
+                        break;
+                    case "7":
+                        //jh
+                        break;
+                    case "8":
+                        //jh
+                        break;
+                    case "9":
+                        //me
+                        break;
+                    case "10":
+                        exit = true;
+                        System.out.println("Logging out...");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                        break;
+                }
+            }
+        }
 
         }
     }
-}
+
 
 
 
