@@ -67,7 +67,7 @@ public class Person {
         String choice = "";
         while (!exit) {
             if (type == 'C') {
-                System.out.println("=====================================");
+                System.out.println("\n=====================================");
                 System.out.println("     🍞      Customer Menu");
                 System.out.println("=====================================");
                 System.out.println("1. Make Order");
@@ -101,7 +101,7 @@ public class Person {
                 }
 
             } else if (type == 'M') {
-                System.out.println("=====================================");
+                System.out.println("\n=====================================");
                 System.out.println("     🍞       Manager Menu");
                 System.out.println("=====================================");
                 System.out.println("1. Show Orders");

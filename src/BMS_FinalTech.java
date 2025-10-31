@@ -10,12 +10,12 @@ public class BMS_FinalTech {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
-        boolean loggedIn = false;
         System.out.println("=====================================");
         System.out.println("     🍞 Bakery Management System");
         System.out.println("=====================================");
 
         while (running) {
+            boolean loggedIn = false;
             System.out.println("\nMain Menu:");
             System.out.println("1. Login");
             System.out.println("2. Create Customer");
@@ -27,13 +27,11 @@ public class BMS_FinalTech {
             char state = 0;
             switch (choice) {
                 case "1":
-
+                    String[] userINFO=null;
                     boolean exit = false;
-                    while(loggedIn == false){
+                    while(!loggedIn){
                         System.out.print("\nEnter your User ID (or X to quit): ");
                         String userId = scanner.nextLine().trim();
-
-                        String[] userINFO;
 
                         if (userId.isEmpty()) {
                             System.out.println("⚠️  User ID cannot be empty.");
@@ -51,20 +49,19 @@ public class BMS_FinalTech {
                             }else{
                                 break;
                             }
-                            if (userINFO.length == 2) {
+                            if (userINFO.length == 4) {
                                 loggedIn = true;
                             }
                         }
                     }
+
                     if(exit){
                         break;
                     }
-
-                    if(state=='M'){
-
-                    }else{
-
+                    if(state!=0){
+                        Person.showUI(state, userINFO);
                     }
+
 
                     break;
 
@@ -80,6 +77,12 @@ public class BMS_FinalTech {
                     //auto login
 
                 case "3":
+                    System.out.print("\nEnter your Master Password: ");
+                    String mpass = scanner.next();
+                    if(mpass != MASTER_PASSWORD){
+                        System.out.println("Master Password is Incorrect");
+                        break;
+                    }
                     System.out.print("\nEnter your Name: ");
                     String mname = scanner.next();
                     System.out.print("\nEnter your Date of Birth(DD/MM/YYYY): ");
@@ -120,14 +123,18 @@ public class BMS_FinalTech {
 
         String myId = null;
         String myPhone = null;
+        String myName = null;
+        String myDOB = null;
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 myId = line.split(",")[0];
+                myName = line.split(",")[1];
+                myDOB = line.split(",")[2];
                 myPhone = line.split(",")[3];
                 if(myId.equals(userId) && myPhone.equals(pnInput)){
                     System.out.println("\nLogin Successful");
-                    return new String[]{myId,myPhone};
+                    return new String[]{myId,myName,myDOB,myPhone};
                 }
             }
 
