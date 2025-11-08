@@ -1,5 +1,4 @@
 import java.io.*;
-import java.nio.Buffer;
 import java.util.*;
 
 public class Person {
@@ -80,16 +79,16 @@ public class Person {
 
                 switch (choice) {
                     case "1":
-
+//wait ks/jh
                         break;
                     case "2":
-
+//wait ks/jh
                         break;
                     case "3":
-
+                        //wait ks/jh
                         break;
                     case "4":
-
+                        updateInfoUI(type,user);
                         break;
                     case "5":
                         exit = true;
@@ -119,16 +118,16 @@ public class Person {
 
                 switch (choice) {
                     case "1":
-
+                        //need wait jh
                         break;
                     case "2":
-
+                        //need wait jh
                         break;
                     case "3":
-
+                        Customer.readCustomers();
                         break;
                     case "4":
-
+                        Manager.readManagers();
                         break;
                     case "5":
                         //ks
@@ -143,7 +142,7 @@ public class Person {
                         //jh
                         break;
                     case "9":
-                        //me
+                        updateInfoUI(type,user);
                         break;
                     case "10":
                         exit = true;
@@ -155,9 +154,54 @@ public class Person {
                 }
             }
         }
-
         }
+
+
+
+    protected static String[] updateInfoUI(char type, String[] user){
+        boolean uExit = false;
+        System.out.println("What would you like to update?");
+        System.out.println("1.Name");
+        System.out.println("2.Contact Number");
+        System.out.println("3.Return");
+        String uChoice = "";
+        String change = "";
+        uChoice = scanner.next();
+        while(!uExit) {
+            switch (uChoice) {
+                case "1":
+                    System.out.println("New Name: ");
+                    change = scanner.next();
+                    user[1] = change;
+                    if(type=='C'){
+                        Customer.updateCustomerInfo(user);
+                    }else{
+                        Manager.updateManagerInfo(user);
+                    }
+                    System.out.println("Update Successful!");
+                    break;
+                case "2":
+                    System.out.println("New Contact Number: ");
+                    change = scanner.next();
+                    user[2] = change;
+                    if(type=='C'){
+                        Customer.updateCustomerInfo(user);
+                    }else{
+                        Manager.updateManagerInfo(user);
+                    }
+                    System.out.println("Update Successful!");
+                    break;
+                case "3":
+                    uExit = true;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        }
+        return user;
     }
+}
 
 
 
@@ -174,6 +218,42 @@ class Customer extends Person {
         super(name, dateOfBirth, phoneNumber);
         this.id = generateNewId(FILE, "C");
     }
+
+
+
+    protected static void updateCustomerInfo(String[] user) {
+        List<String> updatedLines = new ArrayList<>();
+        String id = user[0];
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts[0].equals(id)) {
+                    parts[1] = user[1];
+                    parts[2] = user[2];
+                    parts[3] = user[3];
+                    line = String.join(",", parts);
+                }
+                updatedLines.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE))) {
+            for (String updatedLine : updatedLines) {
+                writer.write(updatedLine);
+                writer.newLine();
+            }
+            System.out.println("Customer information updated successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     public void save() {
         saveToFile(FILE, id + "," + name + "," + dateOfBirth + "," + phoneNumber);
@@ -198,6 +278,38 @@ class Manager extends Person {
     public Manager(String name, String dateOfBirth, String phoneNumber) {
         super(name, dateOfBirth, phoneNumber);
         this.id = generateNewId(FILE, "M");
+    }
+
+    protected static void updateManagerInfo(String[] user) {
+        List<String> updatedLines = new ArrayList<>();
+        String id = user[0];
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts[0].equals(id)) {
+                    parts[1] = user[1];
+                    parts[2] = user[2];
+                    parts[3] = user[3];
+                    line = String.join(",", parts);
+                }
+                updatedLines.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE))) {
+            for (String updatedLine : updatedLines) {
+                writer.write(updatedLine);
+                writer.newLine();
+            }
+            System.out.println("Manager information updated successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void save() {
