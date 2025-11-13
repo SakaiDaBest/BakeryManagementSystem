@@ -156,8 +156,6 @@ public class Person {
         }
         }
 
-
-
     protected static String[] updateInfoUI(char type, String[] user){
         boolean uExit = false;
         System.out.println("What would you like to update?");
