@@ -97,6 +97,22 @@ public class ProductManagement {
     
 
         Product product = new Product(name, price, stock, category);
+        try {
+    RandomAccessFile raf = new RandomAccessFile(FILE_NAME, "rw");
+
+    if (raf.length() > 0) {
+        raf.seek(raf.length() - 1);
+        byte lastByte = raf.readByte();
+
+        if (lastByte != '\n') {
+            raf.write('\n');
+        }
+    }
+
+    raf.close();
+} catch (IOException e) {
+    System.out.println("Error fixing newline before writing product.");
+}
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
             bw.write(product.toCSV());
@@ -113,10 +129,10 @@ public class ProductManagement {
             String line;
             boolean first = true;
 
-            System.out.println("\n=============================================================================");
-            System.out.printf("| %-3s | %-12s | %-30s | %-10s | %-6s |\n",
+            System.out.println("\n========================================================================================");
+            System.out.printf("| %-3s | %-12s | %-40s | %-10s | %-6s |\n",
                     "ID", "Category", "Name", "Price", "Stock");
-            System.out.println("-----------------------------------------------------------------------------");
+            System.out.println("----------------------------------------------------------------------------------------");
 
             while ((line = br.readLine()) != null) {
                 if (first) {
@@ -124,11 +140,11 @@ public class ProductManagement {
                     continue;
                 }
                 String[] data = line.split(",");
-                System.out.printf("| %-3s | %-12s | %-30s | %-10s | %-6s |\n",
+                System.out.printf("| %-3s | %-12s | %-40s | %-10s | %-6s |\n",
                         data[3], data[0], data[1], data[2], data[4]);
             }
 
-            System.out.println("=============================================================================");
+            System.out.println("========================================================================================");
         } catch (IOException e) {
             System.out.println("Error reading file.");
         }
