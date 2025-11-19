@@ -133,13 +133,13 @@ public class Person {
                         //ks
                         break;
                     case "6":
-                        //jh
+                        ProductManagement.editProduct();
                         break;
                     case "7":
-                        //jh
+                        ProductManagement.addProduct();
                         break;
                     case "8":
-                        //jh
+                        ProductManagement.deleteProduct();
                         break;
                     case "9":
                         updateInfoUI(type,user);
