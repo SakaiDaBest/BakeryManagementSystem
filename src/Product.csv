@@ -1,0 +1,52 @@
+Category,Name,Price,ID,Stock
+Bread,Whole Wheat Loaf,4.50,1,32
+Bread,Sourdough Bread,6.00,2,20
+Bread,Garlic Baguette,3.80,3,28
+Bread,Rye Bread,5.20,4,18
+Bread,Multigrain Loaf,5.50,5,25
+Bread,Milk Bread,4.20,6,30
+Bread,Butter Brioche,5.80,7,22
+Bread,Focaccia Bread,5.00,8,24
+Bread,Onion Bagel,2.00,9,40
+Bread,Wholemeal Bun,1.80,10,45
+Pastry,Butter Croissant,3.20,11,40
+Pastry,Chocolate Croissant,3.80,12,34
+Pastry,Almond Croissant,4.20,13,22
+Pastry,Cheese Danish,3.70,14,30
+Pastry,Apple Danish,3.60,15,26
+Pastry,Pain Au Chocolat,3.90,16,28
+Pastry,Strawberry Danish,3.70,17,25
+Pastry,Apricot Danish,3.80,18,23
+Pastry,Cinnamon Twist,2.80,19,32
+Pastry,Vanilla Custard Puff,3.40,20,27
+Cake,Chocolate Fudge Cake Slice,6.50,21,15
+Cake,Red Velvet Cake Slice,6.80,22,14
+Cake,Carrot Cake Slice,6.20,23,16
+Cake,New York Cheesecake Slice,7.00,24,12
+Cake,Lemon Pound Cake Slice,5.00,25,18
+Cake,Chocolate Mousse Cake Slice,6.90,26,13
+Cake,Strawberry Shortcake Slice,6.40,27,15
+Cake,Matcha Layer Cake Slice,6.60,28,14
+Cake,Blueberry Cheesecake Slice,7.20,29,12
+Cake,Vanilla Sponge Cake Slice,4.80,30,20
+Cookie,Chocolate Chip Cookie,2.00,31,50
+Cookie,Oatmeal Raisin Cookie,2.20,32,42
+Cookie,Peanut Butter Cookie,2.30,33,40
+Cookie,Snickerdoodle Cookie,2.10,34,38
+Cookie,White Chocolate Macadamia Cookie,2.50,35,36
+Cookie,Double Chocolate Cookie,2.40,36,34
+Cookie,Red Velvet Cookie,2.60,37,30
+Cookie,Matcha Cookie,2.70,38,28
+Cookie,Caramel Crunch Cookie,2.50,39,32
+Cookie,Butter Sugar Cookie,1.80,40,45
+Pie,Apple Pie Slice,4.80,41,20
+Pie,Pumpkin Pie Slice,4.50,42,18
+Pie,Blueberry Pie Slice,5.20,43,16
+Pie,Lemon Meringue Pie Slice,5.30,44,14
+Pie,Cherry Pie Slice,5.00,45,17
+Pie,Pecan Pie Slice,5.80,46,12
+Pie,Chocolate Silk Pie Slice,5.90,47,13
+Pie,Strawberry Pie Slice,5.10,48,15
+Pie,Mango Pie Slice,5.40,49,14
+Pie,Coconut Cream Pie Slice,5.30,50,13
+
