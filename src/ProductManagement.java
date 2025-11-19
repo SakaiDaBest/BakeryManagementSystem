@@ -6,8 +6,6 @@ abstract class Item {
     protected String name;
     protected double price;
     protected int stock;
-    protected String orderStatus;
-    protected String orderType;
     protected String category;
 
     public abstract void displayDetails();
@@ -18,35 +16,29 @@ class Product extends Item {
     private static int nextID = 1; // auto-increment ID
     private int id;
 
-    public Product(String name, double price, int stock, String orderStatus, String orderType, String category) {
+    public Product(String name, double price, int stock, String category) {
         this.id = nextID++;
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.orderStatus = orderStatus;
-        this.orderType = orderType;
         this.category = category;
     }
 
-    public int getId() {
-        return id;
-    }
+   
 
     public void setName(String name) { this.name = name; }
     public void setPrice(double price) { this.price = price; }
     public void setStock(int stock) { this.stock = stock; }
-    public void setOrderStatus(String status) { this.orderStatus = status; }
-    public void setOrderType(String type) { this.orderType = type; }
     public void setCategory(String category) { this.category = category; }
 
     @Override
     public void displayDetails() {
-        System.out.printf("| %-3d | %-12s | %-10s | %-10.2f | %-6d | %-12s | %-12s |\n",
-                id, category, name, price, stock, orderStatus, orderType);
+        System.out.printf("| %-3d | %-12s | %-10s | %-10.2f | %-6d |\n",
+                id, category, name, price, stock);
     }
 
     public String toCSV() {
-        return category + "," + name + "," + price + "," + id + "," + stock + "," + orderStatus + "," + orderType;
+        return category + "," + name + "," + price + "," + id + "," + stock;
     }
 }
 
@@ -55,12 +47,13 @@ public class ProductManagement {
     private static final String FILE_NAME = "Product.csv";
     private Scanner sc = new Scanner(System.in);
 
+
     public ProductManagement() {
         File file = new File(FILE_NAME);
         try {
             if (!file.exists()) {
                 FileWriter fw = new FileWriter(FILE_NAME);
-                fw.write("Category,Name,Price,ID,Stock,OrderStatus,OrderType\n");
+                fw.write("Category,Name,Price,ID,Stock\n");
                 fw.close();
             }
         } catch (IOException e) {
@@ -101,12 +94,9 @@ public class ProductManagement {
         }
 
         String category = selectCategory();
-        String orderStatus = selectOrderStatus();
+    
 
-        System.out.print("Enter Order Type: ");
-        String orderType = sc.nextLine();
-
-        Product product = new Product(name, price, stock, orderStatus, orderType, category);
+        Product product = new Product(name, price, stock, category);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
             bw.write(product.toCSV());
@@ -123,10 +113,10 @@ public class ProductManagement {
             String line;
             boolean first = true;
 
-            System.out.println("\n===========================================================================");
-            System.out.printf("| %-3s | %-12s | %-10s | %-10s | %-6s | %-12s | %-12s |\n",
-                    "ID", "Category", "Name", "Price", "Stock", "Order Status", "Order Type");
-            System.out.println("---------------------------------------------------------------------------");
+            System.out.println("\n=============================================================================");
+            System.out.printf("| %-3s | %-12s | %-30s | %-10s | %-6s |\n",
+                    "ID", "Category", "Name", "Price", "Stock");
+            System.out.println("-----------------------------------------------------------------------------");
 
             while ((line = br.readLine()) != null) {
                 if (first) {
@@ -134,11 +124,11 @@ public class ProductManagement {
                     continue;
                 }
                 String[] data = line.split(",");
-                System.out.printf("| %-3s | %-12s | %-10s | %-10s | %-6s | %-12s | %-12s |\n",
-                        data[3], data[0], data[1], data[2], data[4], data[5], data[6]);
+                System.out.printf("| %-3s | %-12s | %-30s | %-10s | %-6s |\n",
+                        data[3], data[0], data[1], data[2], data[4]);
             }
 
-            System.out.println("===========================================================================");
+            System.out.println("=============================================================================");
         } catch (IOException e) {
             System.out.println("Error reading file.");
         }
@@ -206,10 +196,7 @@ public class ProductManagement {
                 }
 
                 product[0] = selectCategory();
-                product[5] = selectOrderStatus();
-                System.out.print("Enter new Order Type (leave blank to keep \"" + product[6] + "\"): ");
-                String type = sc.nextLine();
-                if (!type.isEmpty()) product[6] = type;
+                
 
                 System.out.println("Product updated successfully!");
                 break;
@@ -277,7 +264,7 @@ public class ProductManagement {
     // Utility: Write all products back to CSV
     private void writeAllProducts(List<String[]> products) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME))) {
-            bw.write("Category,Name,Price,ID,Stock,OrderStatus,OrderType\n");
+            bw.write("Category,Name,Price,ID,Stock\n");
             for (String[] product : products) {
                 bw.write(String.join(",", product));
                 bw.newLine();
@@ -310,26 +297,7 @@ public class ProductManagement {
         }
     }
 
-    // Order status selection
-    private String selectOrderStatus() {
-        while (true) {
-            System.out.println("\nSelect Order Status:");
-            System.out.println("1. Pending");
-            System.out.println("2. Delivering");
-            System.out.println("3. Completed");
-            System.out.println("4. Cancelled");
-            System.out.print("Choice: ");
-            String choice = sc.nextLine();
-
-            switch (choice) {
-                case "1": return "Pending";
-                case "2": return "Delivering";
-                case "3": return "Completed";
-                case "4": return "Cancelled";
-                default: System.out.println("Invalid choice. Try again.");
-            }
-        }
-    }
+  
 
     // Main Menu
     public static void main(String[] args) {
