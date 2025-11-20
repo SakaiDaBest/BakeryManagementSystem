@@ -1,4 +1,3 @@
-package src;
 
 import java.util.*;
 import java.io.*;
@@ -7,6 +6,8 @@ import java.time.format.*;
 
 public abstract class Report {
     final private String reportID, date;
+    final String PcsvFile = System.getProperty("user.dir") + "/BakeryManagementSystem/src/Product.csv";
+    final String ScsvFile = System.getProperty("user.dir") + "/BakeryManagementSystem/src/Sales.csv";
 
     public Report(String reportID, String date) {
         this.reportID = reportID;
@@ -104,10 +105,9 @@ class ProductReport extends Report{
     public void displayReport(Scanner scanner){
         System.out.println(this);
 
-        String csvFile = "src/Product.csv";
         String line;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(PcsvFile))) {
             System.out.println("\n----Product Report----");
             System.out.print(String.format("%-10s %-40s %-15s %-15s %-10s%n",
                     "Category", "Product Name", "Price (RM)", "Item ID", "Stock"));
@@ -189,12 +189,13 @@ class SalesReport extends Report{
     }
 
     private void monthlySR(){
-        String csvFile = "src/Sales.csv";
+
+        //private static final String FILE_NAME = System.getProperty("user.dir") + "/BakeryManagementSystem/src/Product.csv";
         String line;
 
         double[] monthTotals = new double[12];
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(ScsvFile))) {
             br.readLine();
 
             while ((line = br.readLine()) != null) {
@@ -227,7 +228,6 @@ class SalesReport extends Report{
     }
 
     private void yearlySR(){
-        String csvFile = "src/Sales.csv";
         String line;
 
         // Max 100 different years
@@ -235,7 +235,7 @@ class SalesReport extends Report{
         double[] totals = new double[100];
         int yearCount = 0; // keeps track of how many unique years
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(ScsvFile))) {
             br.readLine();
 
             while ((line = br.readLine()) != null) {
@@ -283,11 +283,10 @@ class SalesReport extends Report{
         System.out.print("\nEnter the year to check (e.g. 2025): ");
         String inputYear = scanner.nextLine();
 
-        String csvFile = "src/Sales.csv";
         String line;
         double[] monthTotals = new double[12];
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(ScsvFile))) {
             br.readLine();
 
             while ((line = br.readLine()) != null) {
@@ -339,14 +338,14 @@ class SalesReport extends Report{
     }
 
     private void sellingProductHL() {
-        String csvFile = "src/Sales.csv";
+
         String line;
 
         String[] productNames = new String[100]; // store up to 100 different products
         int[] totalQuantities = new int[100];
         int productCount = 0;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(ScsvFile))) {
             br.readLine();
 
             while ((line = br.readLine()) != null) {
@@ -410,12 +409,11 @@ class SalesReport extends Report{
 
 
     private void totalSales() {
-        String csvFile = "src/Sales.csv";
         String line;
         double totalSales = 0;
         int totalTransactions = 0;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(ScsvFile))) {
             br.readLine();
 
             while ((line = br.readLine()) != null) {
@@ -505,10 +503,9 @@ class SalesHistoryReport extends Report{
     }
 
     private void salesRecord(){
-        String csvFile = "src/Sales.csv";
         String line;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(ScsvFile))) {
             System.out.println("\n----Sales Report----");
             System.out.print(String.format("%-10s %-15s %-15s %-30s %-15s %-15s %-15s %-15s%n",
                     "Report ID", "Customer ID", "Customer Name", "Product(s)", "Quantity", "Price(RM)", "Total", "Date"));
@@ -590,11 +587,11 @@ class SalesHistoryReport extends Report{
         System.out.print("\nEnter Report ID to search (e.g. R001): ");
         String inputRID = scanner.nextLine();
 
-        String csvFile = "src/Sales.csv";
+
         String line;
         boolean found = false;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(ScsvFile))) {
             br.readLine();
 
             while ((line = br.readLine()) != null) {
@@ -619,12 +616,10 @@ class SalesHistoryReport extends Report{
     private void checkWithCID(Scanner scanner) {
         System.out.print("\nEnter Customer ID to search (e.g. C001): ");
         String inputCID = scanner.nextLine();
-
-        String csvFile = "src/Sales.csv";
         String line;
         boolean found = false;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(ScsvFile))) {
             br.readLine();
 
             while ((line = br.readLine()) != null) {
@@ -649,11 +644,10 @@ class SalesHistoryReport extends Report{
         System.out.print("\nEnter Date to search (e.g. 01-01-2025): ");
         String inputDate = scanner.nextLine();
 
-        String csvFile = "src/Sales.csv";
         String line;
         boolean found = false;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(ScsvFile))) {
             br.readLine();
 
             while ((line = br.readLine()) != null) {
@@ -703,7 +697,5 @@ class SalesHistoryReport extends Report{
         }
     }
 }
-
-
 
 
