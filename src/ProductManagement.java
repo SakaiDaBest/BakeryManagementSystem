@@ -44,8 +44,8 @@ class Product extends Item {
 
 // Main program class
 public class ProductManagement {
-    private static final String FILE_NAME = "Product.csv";
-    private Scanner sc = new Scanner(System.in);
+    private static final String FILE_NAME = System.getProperty("user.dir") + "/BakeryManagementSystem/src/Product.csv";
+    private static Scanner sc = new Scanner(System.in);
 
 
     public ProductManagement() {
@@ -62,7 +62,7 @@ public class ProductManagement {
     }
 
     // Add Product
-    public void addProduct() {
+    public static void addProduct() {
         String name = "";
         while (true) {
             System.out.print("Enter Product Name (letters only, >3 chars): ");
@@ -124,6 +124,7 @@ public class ProductManagement {
     }
 
     // View Products (Table View)
+// View Products (Table View)
     public void viewProducts() {
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_NAME))) {
             String line;
@@ -139,7 +140,20 @@ public class ProductManagement {
                     first = false;
                     continue;
                 }
+
+                // Skip empty lines
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+
                 String[] data = line.split(",");
+
+                // Validate that we have all required fields
+                if (data.length < 5) {
+                    System.out.println("⚠️ Skipping malformed line: " + line);
+                    continue;
+                }
+
                 System.out.printf("| %-3s | %-12s | %-40s | %-10s | %-6s |\n",
                         data[3], data[0], data[1], data[2], data[4]);
             }
@@ -149,9 +163,8 @@ public class ProductManagement {
             System.out.println("Error reading file.");
         }
     }
-
     // Edit Product
-    public void editProduct() {
+    public static void editProduct() {
         List<String[]> products = readAllProducts();
         if (products.size() == 0) {
             System.out.println("No products found.");
@@ -227,7 +240,7 @@ public class ProductManagement {
     }
 
     // Delete Product
-    public void deleteProduct() {
+    public static void deleteProduct() {
         List<String[]> products = readAllProducts();
         if (products.size() == 0) {
             System.out.println("No products to delete.");
@@ -258,7 +271,7 @@ public class ProductManagement {
     }
 
     // Utility: Read all products from CSV
-    private List<String[]> readAllProducts() {
+    private static List<String[]> readAllProducts() {
         List<String[]> products = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_NAME))) {
             String line;
@@ -278,7 +291,7 @@ public class ProductManagement {
     }
 
     // Utility: Write all products back to CSV
-    private void writeAllProducts(List<String[]> products) {
+    private static void writeAllProducts(List<String[]> products) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME))) {
             bw.write("Category,Name,Price,ID,Stock\n");
             for (String[] product : products) {
@@ -291,7 +304,7 @@ public class ProductManagement {
     }
 
     // Category selection
-    private String selectCategory() {
+    private static String selectCategory() {
         while (true) {
             System.out.println("\nSelect Category:");
             System.out.println("1. Cake");
