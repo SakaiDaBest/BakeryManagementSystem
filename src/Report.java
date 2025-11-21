@@ -1,4 +1,3 @@
-package src;
 
 import java.util.*;
 import java.io.*;
@@ -7,6 +6,7 @@ import java.time.format.*;
 
 public abstract class Report {
     final private String reportID, date;
+    final String PcsvFile = System.getProperty("user.dir") + "/BakeryManagementSystem/src/Product.csv";
     final String ScsvFile = System.getProperty("user.dir") + "/BakeryManagementSystem/src/Sales.csv";
 
     public Report(String reportID, String date) {
@@ -29,54 +29,48 @@ public abstract class Report {
 
     public abstract void displayReport(Scanner scanner);
 
-    // public void showMenu() {
-    //     Scanner scanner = new Scanner(System.in);
-    //     String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-    //     Report report = null;
-    //     int option = 0;
+    public void showMenu() {
+        Scanner scanner = new Scanner(System.in);
+        String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        Report report = null;
+        int option = 0;
 
-    //     while (option != 5) {
-    //         System.out.println("\n--- Bakery Report Menu ---");
-    //         System.out.println("1. Check Product Report");
-    //         System.out.println("2. Check Sales Report");
-    //         System.out.println("3. Check Sales History");
-    //         System.out.println("4. Customer Purchase History Report");
-    //         System.out.println("5. Return");
-    //         System.out.print("Enter your options (1-5): ");
+        while (option != 4) {
+            System.out.println("\n--- Bakery Report Menu ---");
+            System.out.println("1. Check Product Report");
+            System.out.println("2. Check Sales Report");
+            System.out.println("3. Check Sales History");
+            System.out.println("4. Return");
+            System.out.print("Enter your options (1-4): ");
 
-    //         option = scanner.nextInt();
-    //         scanner.nextLine();
+            option = scanner.nextInt();
+            scanner.nextLine();
 
-    //         switch (option) {
-    //             case 1:
-    //                 report = new ProductReport("R001", formattedDate);
-    //                 report.displayReport(scanner);
-    //                 System.out.print("\n");
-    //                 break;
-    //             case 2:
-    //                 report = new SalesReport("R002", formattedDate);
-    //                 report.displayReport(scanner);
-    //                 System.out.print("\n");
-    //                 break;
-    //             case 3:
-    //                 report = new SalesHistoryReport("R003", formattedDate);
-    //                 report.displayReport(scanner);
-    //                 System.out.print("\n");
-    //                 break;
-    //             case 4:
-    //                 report = new CustomerPurchaseHistoryReport("R004", formattedDate);
-    //                 report.displayReport(scanner);
-    //                 System.out.print("\n");
-    //                 break;
-    //             case 5:
-    //                 System.out.println("\nReturning menu......");
-    //                 break;
-    //             default:
-    //                 System.out.println("\nInvalid option! Please try again!");
-    //                 break;
-    //         }
-    //     }
-    // }
+            switch (option) {
+                case 1:
+                    report = new ProductReport("R001", formattedDate);
+                    report.displayReport(scanner);
+                    System.out.print("\n");
+                    break;
+                case 2:
+                    report = new SalesReport("R002", formattedDate);
+                    report.displayReport(scanner);
+                    System.out.print("\n");
+                    break;
+                case 3:
+                    report = new SalesHistoryReport("R003", formattedDate);
+                    report.displayReport(scanner);
+                    System.out.print("\n");
+                    break;
+                case 4:
+                    System.out.println("\nReturning menu......");
+                    break;
+                default:
+                    System.out.println("\nInvalid option! Please try again!");
+                    break;
+            }
+        }
+    }
 
 //    public static void showPRMenu() {
 //        Scanner scanner = new Scanner(System.in);
@@ -105,46 +99,44 @@ public abstract class Report {
         CustomerPurchaseHistoryReport cphr = new CustomerPurchaseHistoryReport("R003", today);
         cphr.displayReport(scanner);
     }
-
 }
 
 //==================================================================================================================================================================
 
-// class ProductReport extends Report{
-//     public ProductReport(String reportID, String date){
-//         super(reportID, date);
-//     }
+class ProductReport extends Report{
+    public ProductReport(String reportID, String date){
+        super(reportID, date);
+    }
 
-//     public void displayReport(Scanner scanner){
-//         System.out.println(this);
+    public void displayReport(Scanner scanner){
+        System.out.println(this);
 
-//         String csvFile = "src/Product.csv";
-//         String line;
+        String line;
 
-//         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-//             System.out.println("\n----Product Report----");
-//             System.out.print(String.format("%-10s %-40s %-15s %-15s %-10s%n",
-//                     "Category", "Product Name", "Price (RM)", "Item ID", "Stock"));
-//             System.out.println("---------------------------------------------------------------------------------------------");
+        try (BufferedReader br = new BufferedReader(new FileReader(PcsvFile))) {
+            System.out.println("\n----Product Report----");
+            System.out.print(String.format("%-10s %-40s %-15s %-15s %-10s%n",
+                    "Category", "Product Name", "Price (RM)", "Item ID", "Stock"));
+            System.out.println("---------------------------------------------------------------------------------------------");
 
-//             while ((line = br.readLine()) != null) {
-//                 // Split by comma
-//                 String[] values = line.split(",");
+            while ((line = br.readLine()) != null) {
+                // Split by comma
+                String[] values = line.split(",");
 
-//                 if (values.length < 5) continue; // Skip incomplete rows
+                if (values.length < 5) continue; // Skip incomplete rows
 
-//                 // Skip header if it's already in file
-//                 if (values[0].equalsIgnoreCase("Category")) continue;
+                // Skip header if it's already in file
+                if (values[0].equalsIgnoreCase("Category")) continue;
 
-//                 System.out.print(String.format("%-10s %-40s %-15s %-15s %-10s%n",
-//                         values[0], values[1], values[2], values[3], values[4]));
-//             }
-//         } catch (IOException e) {
-//             System.out.println("Error reading Inventory.csv!");
-//             e.printStackTrace();
-//         }
-//     }
-// }
+                System.out.print(String.format("%-10s %-40s %-15s %-15s %-10s%n",
+                        values[0], values[1], values[2], values[3], values[4]));
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading Inventory.csv!");
+            e.printStackTrace();
+        }
+    }
+}
 
 //==================================================================================================================================================================
 
@@ -203,7 +195,8 @@ class SalesReport extends Report{
     }
 
     private void monthlySR(){
-        String csvFile = "src/Sales.csv";
+
+        //private static final String FILE_NAME = System.getProperty("user.dir") + "/BakeryManagementSystem/src/Product.csv";
         String line;
 
         double[] monthTotals = new double[12];
@@ -351,6 +344,7 @@ class SalesReport extends Report{
     }
 
     private void sellingProductHL() {
+
         String line;
 
         String[] productNames = new String[100]; // store up to 100 different products
@@ -599,6 +593,7 @@ class SalesHistoryReport extends Report{
         System.out.print("\nEnter Report ID to search (e.g. R001): ");
         String inputRID = scanner.nextLine();
 
+
         String line;
         boolean found = false;
 
@@ -627,7 +622,6 @@ class SalesHistoryReport extends Report{
     private void checkWithCID(Scanner scanner) {
         System.out.print("\nEnter Customer ID to search (e.g. C001): ");
         String inputCID = scanner.nextLine();
-
         String line;
         boolean found = false;
 
@@ -709,9 +703,7 @@ class SalesHistoryReport extends Report{
         }
     }
 }
-
-//==================================================================================================================================================================
-
+//========================================================================================================
 class CustomerPurchaseHistoryReport extends Report {
     public CustomerPurchaseHistoryReport(String reportID, String date) {
         super(reportID, date);
@@ -771,14 +763,3 @@ class CustomerPurchaseHistoryReport extends Report {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
