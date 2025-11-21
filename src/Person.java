@@ -1,5 +1,3 @@
-package src;
-
 import java.io.*;
 import java.util.*;
 import java.time.LocalDate;
@@ -129,12 +127,11 @@ public class Person {
                 System.out.println("4. View Customer List");
                 System.out.println("5. View Manager List");
                 System.out.println("6. View Sales Report");
-                System.out.println("7. View Sales History");
-                System.out.println("8. Update Product Stock");
-                System.out.println("9. Add Product");
-                System.out.println("10. Remove Product");
-                System.out.println("11. Update Information");
-                System.out.println("12. Log Out");
+                System.out.println("7. Update Product Stock");
+                System.out.println("8. Add Product");
+                System.out.println("9. Remove Product");
+                System.out.println("10. Update Information");
+                System.out.println("11. Log Out");
 
                 choice = scanner.next();
                 scanner.nextLine(); // consume newline
@@ -159,24 +156,21 @@ public class Person {
                         Report.showSRMenu();
                         break;
                     case "7":
-                        Report.showSHRMenu();
-                        break;
-                    case "8":
                         ProductManagement.editProduct();
                         break;
-                    case "9":
+                    case "8":
                         ProductManagement.addProduct();
                         break;
-                    case "10":
+                    case "9":
                         ProductManagement.deleteProduct();
                         break;
-                    case "11":
+                    case "10":
                         user = updateInfoUI(type, user);
                         manager.name = user[1];
                         manager.dateOfBirth = user[2];
                         manager.phoneNumber = user[3];
                         break;
-                    case "12":
+                    case "11":
                         exit = true;
                         System.out.println("Logging out...");
                         break;
