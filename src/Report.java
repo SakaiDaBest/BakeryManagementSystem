@@ -93,11 +93,11 @@ public abstract class Report {
         shr.displayReport(scanner);
     }
 
-    public static void showCPHR(){
+    public static void showCPHR(String cid){
         Scanner scanner = new Scanner(System.in);
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         CustomerPurchaseHistoryReport cphr = new CustomerPurchaseHistoryReport("R003", today);
-        cphr.displayReport(scanner);
+        cphr.displayActualReport(cid);
     }
 }
 
@@ -709,6 +709,7 @@ class CustomerPurchaseHistoryReport extends Report {
         super(reportID, date);
     }
 
+    //useless code
     public void displayReport(Scanner scanner) {
 
         System.out.println(this); // prints Report ID and date
@@ -755,6 +756,58 @@ class CustomerPurchaseHistoryReport extends Report {
 
             if (!found) {
                 System.out.println("No purchase history found for Customer ID: " + customerID);
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error reading purchase history!");
+            e.printStackTrace();
+        }
+    }
+
+    public void displayActualReport(String cid){
+        System.out.println(this); // prints Report ID and date
+
+
+
+        String line;
+        boolean found = false;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(ScsvFile))) {
+            br.readLine(); // skip header
+
+            System.out.println("\n===== Purchase History for Customer: " + cid + " =====\n");
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+
+                if (data.length < 8) continue;
+
+                if (data[1].equalsIgnoreCase(cid)) {
+                    found = true;
+
+                    String reportID = data[0];
+                    String custName = data[2];
+                    String[] products = data[3].split(";");
+                    String[] quantities = data[4].split(";");
+                    String total = data[6];
+                    String dateValue = data[7];
+
+                    System.out.println("Report ID: " + reportID);
+                    System.out.println("Customer Name: " + custName);
+                    System.out.println("Date: " + dateValue);
+                    System.out.println("Items Purchased:");
+
+                    for (int i = 0; i < products.length; i++) {
+                        System.out.println("  - " + products[i].trim() + " (x" + quantities[i].trim() + ")");
+                    }
+
+                    System.out.println("Total Spent: RM " + total);
+                    System.out.println("---------------------------------------------");
+                }
+            }
+
+            if (!found) {
+                System.out.println("No purchase history found for Customer ID: " + cid);
             }
 
         } catch (IOException e) {
