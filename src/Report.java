@@ -29,48 +29,48 @@ public abstract class Report {
 
     public abstract void displayReport(Scanner scanner);
 
-    public void showMenu() {
-        Scanner scanner = new Scanner(System.in);
-        String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        Report report = null;
-        int option = 0;
+    // public void showMenu() {
+    //     Scanner scanner = new Scanner(System.in);
+    //     String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    //     Report report = null;
+    //     int option = 0;
 
-        while (option != 4) {
-            System.out.println("\n--- Bakery Report Menu ---");
-            System.out.println("1. Check Product Report");
-            System.out.println("2. Check Sales Report");
-            System.out.println("3. Check Sales History");
-            System.out.println("4. Return");
-            System.out.print("Enter your options (1-4): ");
+    //     while (option != 4) {
+    //         System.out.println("\n--- Bakery Report Menu ---");
+    //         System.out.println("1. Check Product Report");
+    //         System.out.println("2. Check Sales Report");
+    //         System.out.println("3. Check Sales History");
+    //         System.out.println("4. Return");
+    //         System.out.print("Enter your options (1-4): ");
 
-            option = scanner.nextInt();
-            scanner.nextLine();
+    //         option = scanner.nextInt();
+    //         scanner.nextLine();
 
-            switch (option) {
-                case 1:
-                    report = new ProductReport("R001", formattedDate);
-                    report.displayReport(scanner);
-                    System.out.print("\n");
-                    break;
-                case 2:
-                    report = new SalesReport("R002", formattedDate);
-                    report.displayReport(scanner);
-                    System.out.print("\n");
-                    break;
-                case 3:
-                    report = new SalesHistoryReport("R003", formattedDate);
-                    report.displayReport(scanner);
-                    System.out.print("\n");
-                    break;
-                case 4:
-                    System.out.println("\nReturning menu......");
-                    break;
-                default:
-                    System.out.println("\nInvalid option! Please try again!");
-                    break;
-            }
-        }
-    }
+    //         switch (option) {
+    //             case 1:
+    //                 report = new ProductReport("R001", formattedDate);
+    //                 report.displayReport(scanner);
+    //                 System.out.print("\n");
+    //                 break;
+    //             case 2:
+    //                 report = new SalesReport("R002", formattedDate);
+    //                 report.displayReport(scanner);
+    //                 System.out.print("\n");
+    //                 break;
+    //             case 3:
+    //                 report = new SalesHistoryReport("R003", formattedDate);
+    //                 report.displayReport(scanner);
+    //                 System.out.print("\n");
+    //                 break;
+    //             case 4:
+    //                 System.out.println("\nReturning menu......");
+    //                 break;
+    //             default:
+    //                 System.out.println("\nInvalid option! Please try again!");
+    //                 break;
+    //         }
+    //     }
+    // }
 
 //    public static void showPRMenu() {
 //        Scanner scanner = new Scanner(System.in);
@@ -86,12 +86,12 @@ public abstract class Report {
         sr.displayReport(scanner);
     }
 
-    public static void showSHRMenu() {
-        Scanner scanner = new Scanner(System.in);
-        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        SalesHistoryReport shr = new SalesHistoryReport("R002", today);
-        shr.displayReport(scanner);
-    }
+    // public static void showSHRMenu() {
+    //     Scanner scanner = new Scanner(System.in);
+    //     String today = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    //     SalesHistoryReport shr = new SalesHistoryReport("R002", today);
+    //     shr.displayReport(scanner);
+    // }
 
     public static void showCPHR(String cid){
         Scanner scanner = new Scanner(System.in);
@@ -816,3 +816,4 @@ class CustomerPurchaseHistoryReport extends Report {
         }
     }
 }
+
