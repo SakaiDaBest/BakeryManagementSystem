@@ -18,8 +18,8 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getId() {
-        return id;
+    public String[] getInfo() {
+        return new String[]{id,name,dateOfBirth,phoneNumber};
     }
 
     // --- Shared ID generation logic ---
