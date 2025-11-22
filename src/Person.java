@@ -18,6 +18,10 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getId() {
+        return id;
+    }
+
     // --- Shared ID generation logic ---
     protected static String generateNewId(String fileName, String prefix) {
         String lastId = null;
@@ -100,7 +104,7 @@ public class Person {
                         customer.viewOrderStatus();
                         break;
                     case "3":
-                        Report.showCPHR();
+                        Report.showCPHR(user[0]);
                         break;
                     case "4":
                         user = updateInfoUI(type, user);
@@ -235,7 +239,7 @@ public class Person {
 
 
 class Customer extends Person {
-    private static final String FILE = "customers.csv";
+    private static final String FILE = System.getProperty("user.dir") + "/BakeryManagementSystem/src/customers.csv";
     private static final String ORDERS_FILE =System.getProperty("user.dir") + "/BakeryManagementSystem/src/orders.csv";
 
     public Customer(String name, String dateOfBirth, String phoneNumber) {
@@ -556,7 +560,7 @@ class Customer extends Person {
 
 
 class Manager extends Person {
-    private static final String FILE = "managers.csv";
+    private static final String FILE = System.getProperty("user.dir") + "/BakeryManagementSystem/src/managers.csv";
     private static final String ORDERS_FILE =System.getProperty("user.dir") + "/BakeryManagementSystem/src/orders.csv";
 
     public Manager(String name, String dateOfBirth, String phoneNumber) {
