@@ -1,9 +1,13 @@
 import java.io.*;
-import java.util.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
+//Oracle Corporation. (n.d.). Package java.time.
+//from https://docs.oracle.com/javase/8/docs/api/java/time/package-summary.html
 public class Person {
     protected String name;
     protected String dateOfBirth;
@@ -22,7 +26,7 @@ public class Person {
         return new String[]{id,name,dateOfBirth,phoneNumber};
     }
 
-    // --- Shared ID generation logic ---
+    // generate ID for new order customer and manager
     protected static String generateNewId(String fileName, String prefix) {
         String lastId = null;
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -30,10 +34,8 @@ public class Person {
             while ((line = reader.readLine()) != null) {
                 lastId = line.split(",")[0];
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("No existing file found for " + prefix + ". Starting at " + prefix + "001");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);;
         }
 
         if (lastId == null) {
@@ -45,16 +47,18 @@ public class Person {
         }
     }
 
-    // --- Shared save logic ---
+    // save new customer info
     protected static void saveToFile(String fileName, String record) {
         try (FileWriter fw = new FileWriter(fileName, true)) {
+//Udemy, Inc. (n.d.). The Complete Java Developer Course: From Beginner to Master [Online course].
+//from https://www.udemy.com/course/the-complete-java-developer-course/?utm_source=bing&utm_medium=udemyads&utm_campaign=…
             fw.write(record + "\n");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);;
         }
     }
 
-    // --- Shared read logic ---
+    // used to show all customers and managers
     protected static void readFile(String fileName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
@@ -62,10 +66,10 @@ public class Person {
                 System.out.println(line);
             }
         } catch (IOException e) {
-            System.out.println("No records found in " + fileName);
+            System.out.println(e);
         }
     }
-
+    //shows customer/manager UI after logging in
     protected static void showUI(char type, String[] user){
         boolean exit = false;
         String choice = "";
@@ -85,7 +89,7 @@ public class Person {
         while (!exit) {
             if (type == 'C') {
                 System.out.println("\n=====================================");
-                System.out.println("     🍞      Customer Menu");
+                System.out.println("            Customer Menu");
                 System.out.println("=====================================");
                 System.out.println("1. Make Order");
                 System.out.println("2. View Order Status");
@@ -94,7 +98,7 @@ public class Person {
                 System.out.println("5. Log Out");
 
                 choice = scanner.next();
-                scanner.nextLine(); // consume newline
+                scanner.nextLine();
 
                 switch (choice) {
                     case "1":
@@ -123,8 +127,8 @@ public class Person {
 
             } else if (type == 'M') {
                 System.out.println("\n=====================================");
-                System.out.println("     🍞       Manager Menu");
-                System.out.println("=====================================");
+                System.out.println("             Manager Menu");
+                System.out.println("=======================================");
                 System.out.println("1. Show Orders");
                 System.out.println("2. Complete Order");
                 System.out.println("3. Cancel Orders");
@@ -138,7 +142,7 @@ public class Person {
                 System.out.println("11. Log Out");
 
                 choice = scanner.next();
-                scanner.nextLine(); // consume newline
+                scanner.nextLine();
 
                 switch (choice) {
                     case "1":
@@ -185,14 +189,14 @@ public class Person {
             }
         }
     }
-
+    //used for updating customer/manager info
     protected static String[] updateInfoUI(char type, String[] user){
         System.out.println("\nWhat would you like to update?");
         System.out.println("1. Name");
         System.out.println("2. Contact Number");
         System.out.println("3. Return");
         String uChoice = scanner.next();
-        scanner.nextLine(); // consume newline
+        scanner.nextLine();
         String change = "";
 
         switch (uChoice) {
@@ -249,11 +253,11 @@ class Customer extends Person {
 
     protected void makeOrder(){
         String[] order = new String[0];
-        ArrayList<String[]> cart = new ArrayList<>();
+        ArrayList<String[]> cart = new ArrayList<>();//stores each purchase
         Scanner sc = new Scanner(System.in);
 
         // Choose order type
-        System.out.println("\n🍞 Select Order Type:");
+        System.out.println("\nSelect Order Type:");
         System.out.println("1. Take-Away");
         System.out.println("2. Dine-In");
         System.out.print("Enter choice: ");
@@ -273,12 +277,12 @@ class Customer extends Person {
                 break;
         }
 
-        ProductManagement.viewProducts();
+        ProductManagement.viewProducts();//show products to chooses from
         System.out.print("Enter Product ID you would like to get: ");
         int id = sc.nextInt();
         System.out.print("Enter the amount you would like to get: ");
         int amount = sc.nextInt();
-        order = ProductManagement.checkStock(id, amount);
+        order = ProductManagement.checkStock(id, amount);//checks if there is sufficient stock
 
         if(order.length == 0){
             System.out.println("Insufficient stock");
@@ -291,7 +295,7 @@ class Customer extends Person {
         boolean fin = false;
         char reply;
 
-        while(!fin){
+        while(!fin){//asks if the customer wants to add more products to the cart
             System.out.print("Would you like to order another product? (Y/N): ");
             reply = sc.next().charAt(0);
 
@@ -329,7 +333,7 @@ class Customer extends Person {
         }
     }
 
-    protected double checkcart(ArrayList<String[]> cart){
+    protected double checkcart(ArrayList<String[]> cart){ //shows all items in the cart
         double total = 0;
         System.out.println("\n-------------Cart--------------");
         System.out.println("\n========================================================================================");
@@ -351,11 +355,10 @@ class Customer extends Person {
         return total;
     }
 
-    protected void payment(ArrayList<String[]> cart, double total, String orderType){
+    protected void payment(ArrayList<String[]> cart, double total, String orderType){//lets customer pick purchase method
         Scanner sc = new Scanner(System.in);
-
         // Payment method selection
-        System.out.println("\n💳 Select Payment Method:");
+        System.out.println("\nSelect Payment Method:");
         System.out.println("1. Cash");
         System.out.println("2. Credit/Debit Card");
         System.out.println("3. E-Wallet");
@@ -395,8 +398,7 @@ class Customer extends Person {
         StringBuilder product = new StringBuilder(cart.get(0)[1]);
         StringBuilder quantity = new StringBuilder(cart.get(0)[4]);
         StringBuilder price = new StringBuilder(cart.get(0)[2]);
-
-        // Reduce stock using productId (index 3) and quantity (index 4)
+        // Reduce stock using productId and quantity
         ProductManagement.reduceStock(Integer.parseInt(cart.get(0)[3]), Integer.parseInt(cart.get(0)[4]));
 
         int num = 1;
@@ -412,12 +414,12 @@ class Customer extends Person {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String formattedDateTime = now.format(formatter);
 
-        // Save to orders.csv: OrderID,CustomerID,CustomerName,Products,Quantities,Prices,Total,OrderType,PaymentMethod,Status,DateTime
+        // Save to orders.csv
         saveToFile(ORDERS_FILE, orderId + "," + this.id + "," + name + "," +
                 product + "," + quantity + "," + price + "," + total + "," +
                 orderType + "," + paymentMethod + ",Pending," + formattedDateTime);
 
-        // Also save to Sales.csv for backward compatibility
+        // save to Sales.csv
         String ScsvFile = System.getProperty("user.dir") + "/BakeryManagementSystem/src/Sales.csv";
         String salesId = generateNewId(ScsvFile, "R");
         LocalDate today = LocalDate.now();
@@ -430,31 +432,34 @@ class Customer extends Person {
         // Generate receipt
         generateReceipt(orderId, cart, total, orderType, paymentMethod, formattedDateTime);
 
-        System.out.println("\n✅ Payment successful!");
+        System.out.println("\n Payment successful!");
         System.out.println("Order ID: " + orderId);
         System.out.println("Order Status: Pending");
         System.out.println("\nThank you for your purchase!");
         System.out.println("Product stock has been updated.");
     }
 
+    //generates receipt based on the customer's order
     protected void generateReceipt(String orderId, ArrayList<String[]> cart, double total,
                                    String orderType, String paymentMethod, String dateTime) {
         String receiptFile = "receipt_" + orderId + ".txt";
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(receiptFile))) {
-            writer.println("===============================================");
-            writer.println("           🍞 BAKERY RECEIPT 🍞");
-            writer.println("===============================================");
+            //GeeksforGeeks. (2025, July 23). Java.io.PrintWriter class in Java | Set 1.
+            //from https://www.geeksforgeeks.org/java/java-io-printwriter-class-java-set-1/
+            writer.println("======================================================================");
+            writer.println("              BAKERY RECEIPT ");
+            writer.println("======================================================================");
             writer.println("Order ID: " + orderId);
             writer.println("Customer ID: " + this.id);
             writer.println("Customer Name: " + this.name);
             writer.println("Date & Time: " + dateTime);
             writer.println("Order Type: " + orderType);
             writer.println("Payment Method: " + paymentMethod);
-            writer.println("===============================================");
+            writer.println("======================================================================");
             writer.println();
             writer.printf("%-30s %5s %10s %10s\n", "Item", "Qty", "Price", "Total");
-            writer.println("-----------------------------------------------");
+            writer.println("---------------------------------------------------------------------");
 
             for (String[] item : cart) {
                 String itemName = item[1];
@@ -468,22 +473,22 @@ class Customer extends Person {
                 writer.printf("%-30s %5d %10.2f %10.2f\n", itemName, qty, price, itemTotal);
             }
 
-            writer.println("-----------------------------------------------");
+            writer.println("---------------------------------------------------------------------");
             writer.printf("%-30s %16s %.2f\n", "TOTAL", "RM", total);
-            writer.println("===============================================");
+            writer.println("======================================================================");
             writer.println("        Thank you for your purchase!");
-            writer.println("          Please come again! 😊");
-            writer.println("===============================================");
+            writer.println("          Please come again! :D");
+            writer.println("======================================================================");
 
-            System.out.println("\n📄 Receipt generated: " + receiptFile);
+            System.out.println("\nReceipt generated: " + receiptFile);
 
         } catch (IOException e) {
             System.out.println("Error generating receipt: " + e.getMessage());
         }
     }
-
+    //view order status
     protected void viewOrderStatus() {
-        System.out.println("\n📋 Your Current Orders:");
+        System.out.println("\nYour Current Orders:");
         System.out.println("==========================================================================");
         System.out.printf("| %-8s | %-12s | %-15s | %-10s | %-15s |\n",
                 "Order ID", "Order Type", "Total", "Status", "Date & Time");
@@ -506,11 +511,11 @@ class Customer extends Person {
         }
 
         if (!found) {
-            System.out.println("|                    No active orders found                              |");
+            System.out.println("No active orders found");
         }
         System.out.println("==========================================================================");
     }
-
+    //used to update customer info
     protected static void updateCustomerInfo(String[] user) {
         List<String> updatedLines = new ArrayList<>();
         String id = user[0];
@@ -528,7 +533,7 @@ class Customer extends Person {
                 updatedLines.add(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);
             return;
         }
 
@@ -538,16 +543,16 @@ class Customer extends Person {
                 writer.newLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
-
+    //save new generated customer info from BMS_FinalTech
     public void save() {
         saveToFile(FILE, id + "," + name + "," + dateOfBirth + "," + phoneNumber);
     }
-
+    //Shows all customers
     public static void readCustomers() {
-        System.out.println("📋 Customer List:");
+        System.out.println("Customer List:");
         readFile(FILE);
     }
 }
@@ -567,7 +572,7 @@ class Manager extends Person {
         super(name, dateOfBirth, phoneNumber);
         this.id = generateNewId(FILE, "M");
     }
-
+    //show all orders by customers
     protected void showOrders() {
         System.out.println("\n📋 All Orders:");
         System.out.println("=============================================================================================================");
@@ -588,7 +593,7 @@ class Manager extends Person {
         }
         System.out.println("=============================================================================================================");
     }
-
+    //update current status of customer's orders
     protected void updateOrderStatus() {
         Scanner sc = new Scanner(System.in);
         System.out.print("\nEnter Order ID to update: ");
@@ -599,7 +604,6 @@ class Manager extends Person {
         System.out.println("2. Completed");
         System.out.print("Enter choice: ");
         String choice = sc.next();
-
         String newStatus = "";
         switch(choice) {
             case "1":
@@ -615,7 +619,6 @@ class Manager extends Person {
 
         List<String> updatedLines = new ArrayList<>();
         boolean found = false;
-
         try (BufferedReader reader = new BufferedReader(new FileReader(ORDERS_FILE))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -628,23 +631,21 @@ class Manager extends Person {
                 updatedLines.add(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);;
             return;
         }
-
         if (!found) {
             System.out.println("Order ID not found.");
             return;
         }
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ORDERS_FILE))) {
             for (String updatedLine : updatedLines) {
                 writer.write(updatedLine);
                 writer.newLine();
             }
-            System.out.println("✅ Order status updated to: " + newStatus);
+            System.out.println("Order status updated to: " + newStatus);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);;
         }
     }
 
@@ -674,7 +675,7 @@ class Manager extends Person {
                 updatedLines.add(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);;
             return;
         }
 
@@ -688,9 +689,9 @@ class Manager extends Person {
                 writer.write(updatedLine);
                 writer.newLine();
             }
-            System.out.println("✅ Order cancelled successfully.");
+            System.out.println("Order cancelled.");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);;
         }
     }
 
@@ -711,7 +712,7 @@ class Manager extends Person {
                 updatedLines.add(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);;
             return;
         }
 
@@ -721,16 +722,16 @@ class Manager extends Person {
                 writer.newLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);;
         }
     }
-
+    //save new manager info from BMS_FinalTech
     public void save() {
         saveToFile(FILE, id + "," + name + "," + dateOfBirth + "," + phoneNumber);
     }
-
+    //Shows all manager info
     public static void readManagers() {
-        System.out.println("👔 Manager List:");
+        System.out.println("Manager List:");
         readFile(FILE);
     }
 }
