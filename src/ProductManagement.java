@@ -7,7 +7,7 @@ abstract class Item {
     protected double price;
     protected int stock;
     protected String category;
-
+// Oracle. (2023). Abstract Methods and Classes. From “https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html”
     public abstract void displayDetails();
 }
 
@@ -34,7 +34,7 @@ class Product extends Item {
         System.out.printf("| %-3d | %-12s | %-10s | %-10.2f | %-6d |\n",
                 id, category, name, price, stock);
     }
-
+// Oracle. (2023). Overriding Methods. From “https://docs.oracle.com/javase/tutorial/java/IandI/override.html”
     public String toCSV() {
         return category + "," + name + "," + price + "," + id + "," + stock;
     }
@@ -53,6 +53,7 @@ public class ProductManagement {
                 fw.write("Category,Name,Price,ID,Stock\n");
                 fw.close();
             }
+            // Oracle. (2023). Reading, Writing, and Creating Files. From “https://docs.oracle.com/javase/tutorial/essential/io/file.html”
         } catch (IOException e) {
             System.out.println("Error initializing file.");
         }
@@ -95,7 +96,7 @@ public class ProductManagement {
         Product product = new Product(name, price, stock, category);
         try {
             RandomAccessFile raf = new RandomAccessFile(FILE_NAME, "rw");
-
+ // Oracle. (2023). RandomAccessFile (Java Platform SE 8). From “https://docs.oracle.com/javase/8/docs/api/java/io/RandomAccessFile.html”
             if (raf.length() > 0) {
                 raf.seek(raf.length() - 1);
                 byte lastByte = raf.readByte();
@@ -109,7 +110,8 @@ public class ProductManagement {
         } catch (IOException e) {
             System.out.println("Error fixing newline before writing product.");
         }
-
+// Oracle. (2023). Exceptions. From “https://docs.oracle.com/javase/tutorial/essential/exceptions/”
+        
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
             bw.write(product.toCSV());
             bw.newLine();
@@ -119,12 +121,15 @@ public class ProductManagement {
         }
     }
 
+    // Oracle. (2023). Integer (Java SE 8). From “https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html”
+    // Oracle. (2023). Double (Java SE 8). From “https://docs.oracle.com/javase/8/docs/api/java/lang/Double.html”
+
     // View Products (Table View)
     public static void viewProducts() {
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_NAME))) {
             String line;
             boolean first = true;
-
+// Oracle. (2023). Reading, Writing, and Creating Files. From “https://docs.oracle.com/javase/tutorial/essential/io/file.html”
             System.out.println("\n========================================================================================");
             System.out.printf("| %-3s | %-12s | %-40s | %-10s | %-6s |\n",
                     "ID", "Category", "Name", "Price", "Stock");
@@ -185,6 +190,7 @@ public class ProductManagement {
                         System.out.print("Enter new Name again: ");
                         name = sc.nextLine();
                     }
+                    // Oracle. (2023). Regular Expressions. From “https://docs.oracle.com/javase/tutorial/essential/regex/”
                     product[1] = name;
                 }
 
@@ -361,6 +367,7 @@ public class ProductManagement {
     // Utility: Read all products from CSV
     private static List<String[]> readAllProducts() {
         List<String[]> products = new ArrayList<>();
+        // Oracle. (2023). Collections Framework Overview. From “https://docs.oracle.com/javase/tutorial/collections/”
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_NAME))) {
             String line;
             boolean first = true;
@@ -419,7 +426,7 @@ public class ProductManagement {
         ProductManagement pm = new ProductManagement();
         Scanner sc = new Scanner(System.in);
         int choice = 0;
-
+// Oracle. (2023). Scanner (Java SE 8). From “https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html”
         do {
             System.out.println("\n=== Product Management System ===");
             System.out.println("1. Add Product");
