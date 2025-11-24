@@ -4,6 +4,13 @@ import java.io.*;
 import java.time.*;
 import java.time.format.*;
 
+/*
+1. Oracle. (2023). Java™ Platform, Standard Edition 21 API Specification. Oracle. https://docs.oracle.com/en/java/javase/21/docs/api/index.html
+   - Covers Java classes, inheritance, abstract classes, method overriding, Scanner input, file handling (BufferedReader/FileReader), and general Java syntax used throughout the code.
+2. Baeldung. (2021). Java 8 Date and Time API. Baeldung. https://www.baeldung.com/java-8-date-time-intro
+   - Used for LocalDate, DateTimeFormatter, and formatting dates in reports.
+*/
+
 public abstract class Report {
     final private String reportID, date;
     final String PcsvFile = System.getProperty("user.dir") + "/BakeryManagementSystem/src/Product.csv";
@@ -816,4 +823,5 @@ class CustomerPurchaseHistoryReport extends Report {
         }
     }
 }
+
 
